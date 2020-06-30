@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "6a7ce88b-5d49-4367-9a76-e76d77e7696f",
+		"name": "SpartanTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add One Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"// we want to save the ID generated from this post request ",
+							"// save it into global variable called new_id_generated ",
+							"// so we can use it for the next request ",
+							"// pm.globals.set(\"new_id_generated\", 100);",
+							"",
+							"",
+							"// This is the code to store entire json response body into a variable ",
+							"    var jsonData = pm.response.json();",
+							"    console.log(\"Hello world\"); ",
+							"    // how do we get ID , --> jsonPath ",
+							"    console.log(  jsonData.data.id   ); ",
+							"",
+							"    //so we can use it for the next request ",
+							"    pm.globals.set(\"new_id_generated\", jsonData.data.id);",
+							"",
+							"",
+							"",
+							""
+						],
+						"id": "10708d78-ad23-4b3a-98f1-5c1368a92f1e"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Marry\",\n    \"gender\" : \"Female\",\n    \"phone\" : 1234567890\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/spartans",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"spartans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get 1 Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"pm.test(\"Getting single data Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});"
+						],
+						"id": "0a710ff8-f838-4f36-bb84-24afb2bba8c4"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/spartans/{{new_id_generated}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"spartans",
+						"{{new_id_generated}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete 1 Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"id": "ac5b9201-3fc7-4eb3-a4de-3365a53aaa82"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/spartans/{{new_id_generated}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"spartans",
+						"{{new_id_generated}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "0ead138b-bdc2-4cfb-98db-f0a6473f085e",
+			"key": "base_url",
+			"value": "http://52.205.194.10:8000/",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
